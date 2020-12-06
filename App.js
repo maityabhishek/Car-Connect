@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   {
     alignSelf:"center",
     marginTop:5,
-    color:'#89990'
+    color:'#89990a'
   },
   cardsWrapper: {
     marginTop: 20,
