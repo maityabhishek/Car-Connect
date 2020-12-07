@@ -15,7 +15,12 @@ const HomeScreen = props => {
 
     return (
         <View style={styles.screen}>
-            <Card styles={styles.inputContainer}>
+            <Card style={{marginVertical: 10}}>
+            <Button title="Click Me" onPress={() => {
+                        props.navigation.navigate('TripDetail');
+                    }}/> 
+            </Card>
+            <Card style={{marginVertical: 10}}>
                 <View style={{flex: 1,
                     flexDirection: 'row',
                     justifyContent: "space-between", 
@@ -44,9 +49,57 @@ const HomeScreen = props => {
                         <Text>OK</Text>  
                     </View>                  
                 </View>
-                <Button title="Click Me" onPress={() => {
-                        props.navigation.navigate('TripDetail');
-                    }}/> 
+            </Card>
+            <Card style={{marginVertical: 10}}>
+                <View style={{flex: 1,
+                    justifyContent: "space-between", 
+                    alignItems: "center"}}>
+                    <Text style={{fontWeight: "bold"}}>Notification</Text>
+                </View>
+            </Card>
+            <Card style={{marginVertical: 10}}>
+                <View style={{flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    borderColor: 'blue',
+                    borderWidth: 5}}>
+                    <View>
+                        <Text>PUC expiring on mm/dd/yyyy</Text>
+                    </View>                 
+                </View>
+            </Card>
+            <Card style={{marginVertical: 10}}>
+                <View style={{flex: 1,
+                    justifyContent: "space-between", 
+                    alignItems: "center"}}>
+                    <Text style={{fontWeight: "bold"}}>Trips Log</Text>
+                </View>
+            </Card>
+            <Card style={{marginVertical: 10}}>
+            <View style={{flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    borderColor: 'blue',
+                    borderWidth: 5}}>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>Dist</Text>
+                        <Text>Average Speed</Text>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>11 Kms</Text>
+                        <Text>27 km/hr</Text>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>Fuel Consumed</Text>
+                        <Text>Time Taken</Text>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>1.2 ltrs</Text>
+                        <Text>30 mins</Text>
+                    </View>                  
+                </View> 
             </Card>
         </View >
 
@@ -57,15 +110,6 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         margin: 10
-
-    },
-    inputContainer: {
-        flex: 1,
-        maxWidth: '80%',
-        height: 300,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: 'red'
     },
 });
 
