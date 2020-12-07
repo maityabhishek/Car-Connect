@@ -13,10 +13,6 @@ const HomeScreen = props => {
     loadTripData();
     console.log(props);
 
-    const navigateToTrip = () => {
-        props.navigation.navigate('TripDetail')
-    }
-
     return (
         <View style={styles.screen}>
             <Card styles={styles.inputContainer}>
@@ -27,9 +23,10 @@ const HomeScreen = props => {
                 <View styles={styles.StatusRow}>
                     <Text>Engine Status</Text>
                     <Text>NOk</Text>
-                    <Button title="Click Me" onPress={navigateToTrip}/>                    
+                    <Button title="Click Me" onPress={() => {
+                        props.navigation.navigate('TripDetail');
+                    }}/>                    
                 </View>
-
             </Card>
         </View >
 
