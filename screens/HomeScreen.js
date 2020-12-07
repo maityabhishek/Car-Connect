@@ -16,17 +16,37 @@ const HomeScreen = props => {
     return (
         <View style={styles.screen}>
             <Card styles={styles.inputContainer}>
-                <View styles={styles.StatusRow}>
-                    <Text>Engine Status</Text>
-                    <Text>Ok</Text>
+                <View style={{flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    borderColor: 'blue',
+                    borderWidth: 5,
+                    backgroundColor: 'red'}}>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>Engine Status</Text>
+                        <Text>Total kms</Text>
+                        <Text>Battery Status</Text>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>Ok</Text>
+                        <Text>25000 kms</Text>
+                        <Text>Ok</Text> 
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>Fuel</Text>
+                        <Text>Tyre Pressure</Text>
+                        <Text>Coolent</Text>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text>5.2 ltrs</Text>
+                        <Text>OK</Text>
+                        <Text>OK</Text>  
+                    </View>                  
                 </View>
-                <View styles={styles.StatusRow}>
-                    <Text>Engine Status</Text>
-                    <Text>NOk</Text>
-                    <Button title="Click Me" onPress={() => {
+                <Button title="Click Me" onPress={() => {
                         props.navigation.navigate('TripDetail');
-                    }}/>                    
-                </View>
+                    }}/> 
             </Card>
         </View >
 
@@ -47,15 +67,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: 'red'
     },
-    StatusRow: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        borderColor: 'blue',
-        borderWidth: 5,
-        backgroundColor: 'red'
-    }
-
 });
 
 export default HomeScreen
