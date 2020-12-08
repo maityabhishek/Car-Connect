@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Card from '../components/Card';
 import { getTrips } from "../services/analyticsServices";
+import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const loadTripData = () => {
     getTrips();
@@ -16,30 +19,22 @@ const HomeScreen = props => {
     return (
         <View style={styles.screen}>
             <Card>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>Engine Status</Text>
-                        <Text>Total kms</Text>
-                        <Text>Battery Status</Text>
+                <View style={styles.healthItemRow}>
+                    <View style={styles.healthItemContainer}>
+                        <Text style={styles.healthText}>Engine Status</Text>
+                        <FontAwesome name="check-circle" size={24} color="green" />
                     </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>Ok</Text>
-                        <Text>25000 kms</Text>
-                        <Text>Ok</Text>
+                </View>
+                <View style={styles.healthItemRow}>
+                    <View style={styles.healthItemContainer}>
+                        <Text style={styles.healthText}>Fuel</Text>
+                        <Text style={styles.healthText}>5.2 ltrs</Text>
                     </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>Fuel</Text>
-                        <Text>Tyre Pressure</Text>
-                        <Text>Coolent</Text>
-                    </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>5.2 ltrs</Text>
-                        <Text>OK</Text>
-                        <Text>OK</Text>
+                </View>
+                <View style={styles.healthItemRow}>
+                    <View style={styles.healthItemContainer}>
+                        <Text style={styles.healthText}>Total Kms</Text>
+                        <Text style={styles.healthText}>21000 Kms</Text>
                     </View>
                 </View>
             </Card>
@@ -62,35 +57,27 @@ const HomeScreen = props => {
             </Card>
 
             <Card style={{ marginVertical: 10 }}>
-                <View style={{
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                }}>
-                    <Text style={{ fontWeight: "bold" }}>Trips Log</Text>
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: "space-between",
-                    alignItems: "center"                    
-                }}>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>Dist</Text>
-                        <Text>Average Speed</Text>
+                <TouchableOpacity onPress={() => console.log('Trip Logs Pressed')}>
+                    <Text style={{ fontWeight: "bold" }}>Trips Logs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('TripDetail')}>
+                    <View style={styles.tripPanel}>
+                        <View>
+                            <Text style={styles.tripDate}>3 Dec 2020 2:10 PM</Text>
+                        </View>
+                        <View>
+                            <View style={styles.tripDetailRow}>
+                                <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
+                                <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
+                            </View>
+                            <View style={styles.tripDetailRow}>
+                                <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
+                                <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
+                            </View>                 
+                        </View>
                     </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>11 Kms</Text>
-                        <Text>27 km/hr</Text>
-                    </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>Fuel Consumed</Text>
-                        <Text>Time Taken</Text>
-                    </View>
-                    <View style={{ flexDirection: 'column' }}>
-                        <Text>1.2 ltrs</Text>
-                        <Text>30 mins</Text>
-                    </View>
-                </View>
-            </Card>            
+                </TouchableOpacity>
+            </Card>
         </View >
 
     );
@@ -101,6 +88,37 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 10
     },
+    healthItemContainer: {
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'space-between'
+    },
+    healthItemRow: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: 5
+    },
+    healthText: {
+        fontSize: 20
+    },
+    tripPanel: {
+        backgroundColor: 'lightgray',
+        borderRadius: 5,
+        padding: 10,
+        marginVertical: 3
+    },
+    tripDetailRow: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between' 
+    },
+    tripDate: {
+        fontSize: 16,
+        color: 'red'
+    },
+    tripDetailText: {
+        fontSize: 18
+    }
 });
 
 export default HomeScreen
