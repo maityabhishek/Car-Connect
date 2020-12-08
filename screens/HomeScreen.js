@@ -57,7 +57,7 @@ const HomeScreen = props => {
             </Card>
 
             <Card style={{ marginVertical: 10 }}>
-                <TouchableOpacity onPress={() => console.log('Trip Logs Pressed')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Trips')}>
                     <Text style={{ fontWeight: "bold" }}>Trips Logs</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => props.navigation.navigate('TripDetail')}>
