@@ -15,92 +15,82 @@ const HomeScreen = props => {
 
     return (
         <View style={styles.screen}>
-            <Card style={{marginVertical: 10}}>
-            <Button title="Click Me" onPress={() => {
-                        props.navigation.navigate('TripDetail');
-                    }}/> 
-            </Card>
-            <Card style={{marginVertical: 10}}>
-                <View style={{flex: 1,
+            <Card>
+                <View style={{
                     flexDirection: 'row',
-                    justifyContent: "space-between", 
+                    justifyContent: "space-between",
                     alignItems: "center",
-                    borderColor: 'blue',
-                    borderWidth: 5,
-                    backgroundColor: 'red'}}>
-                    <View style={{flexDirection: 'column'}}>
+                }}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>Engine Status</Text>
                         <Text>Total kms</Text>
                         <Text>Battery Status</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>Ok</Text>
                         <Text>25000 kms</Text>
-                        <Text>Ok</Text> 
+                        <Text>Ok</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>Fuel</Text>
                         <Text>Tyre Pressure</Text>
                         <Text>Coolent</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>5.2 ltrs</Text>
                         <Text>OK</Text>
-                        <Text>OK</Text>  
-                    </View>                  
+                        <Text>OK</Text>
+                    </View>
                 </View>
             </Card>
-            <Card style={{marginVertical: 10}}>
-                <View style={{flex: 1,
-                    justifyContent: "space-between", 
-                    alignItems: "center"}}>
-                    <Text style={{fontWeight: "bold"}}>Notification</Text>
+            <Card style={{ marginVertical: 10 }}>
+                <View style={{
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
+                    <Text style={{ fontWeight: "bold" }}>Notification</Text>
                 </View>
-            </Card>
-            <Card style={{marginVertical: 10}}>
-                <View style={{flex: 1,
+                <View style={{
                     flexDirection: 'row',
-                    justifyContent: "space-between", 
-                    alignItems: "center",
-                    borderColor: 'blue',
-                    borderWidth: 5}}>
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
                     <View>
                         <Text>PUC expiring on mm/dd/yyyy</Text>
-                    </View>                 
+                    </View>
                 </View>
             </Card>
-            <Card style={{marginVertical: 10}}>
-                <View style={{flex: 1,
-                    justifyContent: "space-between", 
-                    alignItems: "center"}}>
-                    <Text style={{fontWeight: "bold"}}>Trips Log</Text>
+
+            <Card style={{ marginVertical: 10 }}>
+                <View style={{
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
+                    <Text style={{ fontWeight: "bold" }}>Trips Log</Text>
                 </View>
-            </Card>
-            <Card style={{marginVertical: 10}}>
-            <View style={{flex: 1,
+                <View style={{
                     flexDirection: 'row',
-                    justifyContent: "space-between", 
-                    alignItems: "center",
-                    borderColor: 'blue',
-                    borderWidth: 5}}>
-                    <View style={{flexDirection: 'column'}}>
+                    justifyContent: "space-between",
+                    alignItems: "center"                    
+                }}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>Dist</Text>
                         <Text>Average Speed</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>11 Kms</Text>
                         <Text>27 km/hr</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>Fuel Consumed</Text>
                         <Text>Time Taken</Text>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{ flexDirection: 'column' }}>
                         <Text>1.2 ltrs</Text>
                         <Text>30 mins</Text>
-                    </View>                  
-                </View> 
-            </Card>
+                    </View>
+                </View>
+            </Card>            
         </View >
 
     );
