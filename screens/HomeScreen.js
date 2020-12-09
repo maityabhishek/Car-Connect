@@ -71,12 +71,18 @@ const HomeScreen = props => {
                 <Trip onPress={() => props.navigation.navigate('TripDetail')}/>                
             </Card>
             <View>
-                <Button title="Load Data" onPress={() => loadTripData()} />
+                <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />
             </View>
         </View >
 
 
     );
+};
+
+HomeScreen.navigationOptions = navData => {
+    return {
+        headerTitle: 'Home'
+    }
 };
 
 const styles = StyleSheet.create({
