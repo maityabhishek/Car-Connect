@@ -29,8 +29,6 @@ class TripDetailsScreen extends Component {
       .get("https://userservie123.azurewebsites.net/viewcar/OD02F7497")
       .then((response) => {
         this.setState({ data: response.data });
-        console.log(JSON.stringify(response.data));
-        console.log(this.state.data);
       })
       .catch(function (error) {});
   }
@@ -63,8 +61,8 @@ class TripDetailsScreen extends Component {
                   }}
                 >
                   <Text style={styles.tripDetailText}>{item.distance}</Text>
-                  <Text style={styles.tripDetailText}>1 hr 36 mins</Text>
-                  <Text style={styles.tripDetailText}>45 Km/hr</Text>
+                  <Text style={styles.tripDetailText}>{item.triptime}Hrs</Text>
+                  <Text style={styles.tripDetailText}>{item.avgspeed}</Text>
                 </View>
               </Card>
               <Card style={{ marginVertical: 10 }}>
@@ -103,7 +101,7 @@ class TripDetailsScreen extends Component {
                     }}
                   >
                     <Text style={styles.tripDetailText}>Fuel Consumed</Text>
-                    <Text style={styles.tripDetailText}>4.6 ltrs</Text>
+                    <Text style={styles.tripDetailText}>{item.fuel}ltrs</Text>
                   </View>
                   <View
                     style={{
@@ -123,7 +121,7 @@ class TripDetailsScreen extends Component {
                     }}
                   >
                     <Text style={styles.tripDetailText}>Avg Speed</Text>
-                    <Text style={styles.tripDetailText}>45 Km/hr</Text>
+                    <Text style={styles.tripDetailText}>{item.avgspeed}</Text>
                   </View>
                   <View
                     style={{
