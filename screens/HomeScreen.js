@@ -1,19 +1,27 @@
 import React from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Card from '../components/Card';
 import { getTrips } from "../services/analyticsServices";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
-
-const loadTripData = () => {
-    getTrips();
-}
-
+import Trip from "../components/TripComponent";
 
 
 const HomeScreen = props => {
-    loadTripData();
+    const [data, setData] = useState('');
+
+    const loadTripData = () => {
+        getTrips()
+            .then(response => {
+                console.log('Response in HomeScreen' + response);
+                setData(response);
+                console.log("Data from state - " + data);
+            })
+            .catch(err => console.log(err));
+    }
+
     console.log(props);
 
     return (
@@ -60,25 +68,13 @@ const HomeScreen = props => {
                 <TouchableOpacity onPress={() => props.navigation.navigate('Trips')}>
                     <Text style={{ fontWeight: "bold" }}>Trips Logs</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('TripDetail')}>
-                    <View style={styles.tripPanel}>
-                        <View>
-                            <Text style={styles.tripDate}>3 Dec 2020 2:10 PM</Text>
-                        </View>
-                        <View>
-                            <View style={styles.tripDetailRow}>
-                                <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
-                                <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
-                            </View>
-                            <View style={styles.tripDetailRow}>
-                                <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
-                                <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
-                            </View>                 
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                <Trip onPress={() => props.navigation.navigate('TripDetail')}/>                
             </Card>
+            <View>
+                <Button title="Load Data" onPress={() => loadTripData()} />
+            </View>
         </View >
+
 
     );
 };
@@ -103,14 +99,14 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     tripPanel: {
-        backgroundColor: 'lightgray',
-        borderRadius: 5,
+        backgroundColor: '#f1f2f2',
+        borderRadius: 10,
         padding: 10,
         marginVertical: 3
     },
-    tripDetailRow: { 
-        flexDirection: 'row', 
-        justifyContent: 'space-between' 
+    tripDetailRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     tripDate: {
         fontSize: 16,
