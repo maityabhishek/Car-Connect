@@ -1,16 +1,19 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Card from '../components/Card';
-import { getTrips } from "../services/analyticsServices";
+import { getTrips, getCarDetails } from "../services/analyticsServices";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Trip from "../components/TripComponent";
+import Axios from "axios";
 
 
 const HomeScreen = props => {
     const [data, setData] = useState('');
+    const [carDetails, setCarDetails] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const loadTripData = () => {
         getTrips()
@@ -22,7 +25,24 @@ const HomeScreen = props => {
             .catch(err => console.log(err));
     }
 
-    console.log(props);
+    useEffect(() => {
+        console.log('Home screen componentDidMount..')
+        getCarDetails('OD02F7497')
+            .then((response) => {
+                console.log('Received the response from view car');
+                response.data.car.enginestatus = 1;
+                setCarDetails(response.data);
+                console.log('carDetails');
+                console.log(carDetails);
+                // carDetails.car.enginestatus = 1;
+                setIsLoading(false);
+            })
+            .catch(function (error) { });
+    }, []);
+
+    if (isLoading) {
+        return <View><Text>Loading data</Text></View>
+    }
 
     return (
         <View style={styles.screen}>
@@ -30,19 +50,21 @@ const HomeScreen = props => {
                 <View style={styles.healthItemRow}>
                     <View style={styles.healthItemContainer}>
                         <Text style={styles.healthText}>Engine Status</Text>
-                        <FontAwesome name="check-circle" size={24} color="green" />
+                        <FontAwesome name={carDetails.car.enginestatus === 0 ? 'check-circle' : 'warning'}
+                            size={24}
+                            color={carDetails.car.enginestatus === 0 ? 'green' : 'darkred'} />
                     </View>
                 </View>
                 <View style={styles.healthItemRow}>
                     <View style={styles.healthItemContainer}>
                         <Text style={styles.healthText}>Fuel</Text>
-                        <Text style={styles.healthText}>5.2 ltrs</Text>
+                        <Text style={styles.healthText}>{carDetails.car.fuel} ltrs</Text>
                     </View>
                 </View>
                 <View style={styles.healthItemRow}>
                     <View style={styles.healthItemContainer}>
                         <Text style={styles.healthText}>Total Kms</Text>
-                        <Text style={styles.healthText}>21000 Kms</Text>
+                        <Text style={styles.healthText}>{carDetails.car.totalkms}</Text>
                     </View>
                 </View>
             </Card>
@@ -68,7 +90,7 @@ const HomeScreen = props => {
                 <TouchableOpacity onPress={() => props.navigation.navigate('Trips')}>
                     <Text style={{ fontWeight: "bold" }}>Trips Logs</Text>
                 </TouchableOpacity>
-                <Trip onPress={() => props.navigation.navigate('TripDetail')}/>                
+                <Trip onPress={() => props.navigation.navigate('TripDetail')} />
             </Card>
             <View>
                 <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />

@@ -25,9 +25,12 @@ class TripDetailsScreen extends Component {
     };
   }
   componentDidMount() {
+      console.log('componentDidMount..');
     axios
       .get("https://userservie123.azurewebsites.net/viewcar/OD02F7497")
       .then((response) => {
+        console.log('Received the response from view car');
+        console.log(response.data);
         this.setState({ data: response.data });
       })
       .catch(function (error) {});
@@ -39,7 +42,7 @@ class TripDetailsScreen extends Component {
       <View style={styles.screen}>
         <FlatList
           data={data.triplist}
-          keyExtractor={({ id }) => id}
+          keyExtractor={(trip) => trip.tripid}
           renderItem={({ item }) => (
             <View>
               <Card>
