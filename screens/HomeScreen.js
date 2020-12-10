@@ -14,6 +14,7 @@ const HomeScreen = props => {
     const [data, setData] = useState('');
     const [carDetails, setCarDetails] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [lastTrip, setLastTrip] = useState({});
 
     const loadTripData = () => {
         getTrips()
@@ -32,13 +33,20 @@ const HomeScreen = props => {
                 console.log('Received the response from view car');
                 response.data.car.enginestatus = 1;
                 setCarDetails(response.data);
+
+                if (response.data?.triplist) {
+                    setLastTrip(
+                        response.data.triplist[response.data.triplist.length - 1]
+                    );
+                }
                 console.log('carDetails');
                 console.log(carDetails);
-                // carDetails.car.enginestatus = 1;
                 setIsLoading(false);
             })
             .catch(function (error) { });
     }, []);
+
+
 
     if (isLoading) {
         return <View><Text>Loading data</Text></View>
@@ -87,10 +95,18 @@ const HomeScreen = props => {
             </Card>
 
             <Card style={{ marginVertical: 10 }}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Trips')}>
-                    <Text style={{ fontWeight: "bold" }}>Trips Logs</Text>
-                </TouchableOpacity>
-                <Trip onPress={() => props.navigation.navigate('TripDetail')} />
+                <View style={styles.tripsLogButtonContainer}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Trips', {
+                        tripList: carDetails.triplist
+                    })}>
+                        <Text style={{ fontWeight: "bold" }}>
+                            Trips Logs 
+                            <MaterialIcons name="navigate-next" size={24} color="black" />
+                        </Text>
+                        
+                    </TouchableOpacity>
+                </View>
+                <Trip onPress={() => props.navigation.navigate('TripDetail')} trip={lastTrip} />
             </Card>
             <View>
                 <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />
@@ -142,6 +158,9 @@ const styles = StyleSheet.create({
     },
     tripDetailText: {
         fontSize: 18
+    },
+    tripsLogButtonContainer: {
+        alignItems: 'flex-end'
     }
 });
 

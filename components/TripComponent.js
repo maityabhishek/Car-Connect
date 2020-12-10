@@ -7,16 +7,20 @@ const Trip = props => {
         <TouchableOpacity {...props}>
             <View style={styles.tripPanel}>
                 <View>
-                    <Text style={styles.tripDate}>3 Dec 2020 2:10 PM</Text>
+                    <Text style={styles.tripEndpointsText}>{props.trip.startpoint} - {props.trip.endpoint}</Text>
                 </View>
+                <View style={styles.tripDateContainer}>
+                    <Text style={styles.tripDate}>3 Dec 2020 2:10 PM</Text>
+                </View>                
                 <View>
                     <View style={styles.tripDetailRow}>
-                        <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
-                        <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
+                        <Text style={styles.tripDetailText}>Dist - {props.trip.distance}</Text>
+                        <Text style={styles.unitText}>Kms</Text>
+                        <Text style={styles.tripDetailText}>Avg Speed - {props.trip.avgspeed} Kms</Text>
                     </View>
                     <View style={styles.tripDetailRow}>
-                        <Text style={styles.tripDetailText}>Dist - 11 Kms</Text>
-                        <Text style={styles.tripDetailText}>Avg Speed - 27Kms</Text>
+                        <Text style={styles.tripDetailText}>Fuel - {props.trip.fuel} Ltrs</Text>
+                        <Text style={styles.tripDetailText}>Total Time -  {props.trip.triptime} Hrs</Text>
                     </View>
                 </View>
             </View>
@@ -33,14 +37,26 @@ const styles = StyleSheet.create({
     },
     tripDetailRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        margin: 5
+    },
+    tripDateContainer: {
+        alignItems: "flex-end"
     },
     tripDate: {
         fontSize: 16,
         color: 'red'
     },
+    tripEndpointsText: {
+        fontSize: 20,
+        color: 'green'
+    },
     tripDetailText: {
-        fontSize: 18
+        fontSize: 16
+    },
+    unitText: {
+        fontSize: 10,
+        fontStyle: 'italic'
     }
 });
 
