@@ -7,8 +7,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Trip from "../components/TripComponent";
-import Axios from "axios";
+import * as Notifications from "expo-notifications";
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => {
+        return {
+            shouldShowAlert: true,
+        };
+    },
+});
 
 const HomeScreen = props => {
     const [data, setData] = useState('');
@@ -24,6 +31,29 @@ const HomeScreen = props => {
                 console.log("Data from state - " + data);
             })
             .catch(err => console.log(err));
+    }
+    
+    // Prepare the notification channel
+    Notifications.setNotificationChannelAsync('new-emails', {
+        name: 'E-mail notifications',
+        importance: Notifications.AndroidImportance.HIGH,
+        sound: 'email-sound.wav', // <- for Android 8.0+, see channelId property below
+    });
+
+    const triggerNotification = () => {
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: 'Overspeeding!',
+                body: 'Overspeeding rule break!!!',
+                badge: 1,
+                sound: 'email-sound.wav', // <- for Android below 8.0,
+                priority: 'max'
+            },
+            trigger: {
+                seconds: 10,
+                channelId: 'new-emails', // <- for Android 8.0+, see definition above
+            }
+        })
     }
 
     useEffect(() => {
@@ -100,16 +130,19 @@ const HomeScreen = props => {
                         tripList: carDetails.triplist
                     })}>
                         <Text style={{ fontWeight: "bold" }}>
-                            Trips Logs 
+                            Trips Logs
                             <MaterialIcons name="navigate-next" size={24} color="black" />
                         </Text>
-                        
+
                     </TouchableOpacity>
                 </View>
                 <Trip onPress={() => props.navigation.navigate('TripDetail')} trip={lastTrip} />
             </Card>
-            <View>
+            <View style={styles.notificationBtnView}>
                 <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />
+            </View>
+            <View style={styles.notificationBtnView}>
+                <Button title="Show notification" onPress={triggerNotification} />
             </View>
         </View >
 
@@ -161,6 +194,9 @@ const styles = StyleSheet.create({
     },
     tripsLogButtonContainer: {
         alignItems: 'flex-end'
+    },
+    notificationBtnView: {
+        margin: 7
     }
 });
 
