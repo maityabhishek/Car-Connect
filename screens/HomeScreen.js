@@ -124,15 +124,15 @@ const HomeScreen = props => {
                 </View>
             </Card>
 
-            <Card style={{ marginVertical: 10 }}>
-                <View style={styles.tripsLogButtonContainer}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Trips', {
+            <Card style={{ marginVertical: 3 }}>
+                <View>
+                    <TouchableOpacity style={styles.tripsLogButtonContainer} onPress={() => props.navigation.navigate('Trips', {
                         tripList: carDetails.triplist
                     })}>
-                        <Text style={{ fontWeight: "bold" }}>
-                            Trips Logs
-                            <MaterialIcons name="navigate-next" size={24} color="black" />
+                        <Text style={{ fontWeight: "bold", alignContent: 'center' }}>
+                            Trips Logs                            
                         </Text>
+                        <MaterialIcons name="navigate-next" size={24} color="black" />
 
                     </TouchableOpacity>
                 </View>
@@ -193,7 +193,10 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     tripsLogButtonContainer: {
-        alignItems: 'flex-end'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        alignContent: 'center'
     },
     notificationBtnView: {
         margin: 7
