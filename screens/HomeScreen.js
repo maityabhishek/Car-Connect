@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, ActivityIndicator } from "react-native";
 import Card from '../components/Card';
 import { getTrips, getCarDetails } from "../services/analyticsServices";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -32,7 +32,7 @@ const HomeScreen = props => {
             })
             .catch(err => console.log(err));
     }
-    
+
     // Prepare the notification channel
     Notifications.setNotificationChannelAsync('new-emails', {
         name: 'E-mail notifications',
@@ -79,7 +79,9 @@ const HomeScreen = props => {
 
 
     if (isLoading) {
-        return <View><Text>Loading data</Text></View>
+        return <View style={styles.loadingView}>
+            <ActivityIndicator size='large' color='red'/>
+        </View>
     }
 
     return (
@@ -130,7 +132,7 @@ const HomeScreen = props => {
                         tripList: carDetails.triplist
                     })}>
                         <Text style={{ fontWeight: "bold", alignContent: 'center' }}>
-                            Trips Logs                            
+                            Trips Logs
                         </Text>
                         <MaterialIcons name="navigate-next" size={24} color="black" />
 
@@ -160,6 +162,11 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         margin: 10
+    },
+    loadingView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center'
     },
     healthItemContainer: {
         flexDirection: 'row',
