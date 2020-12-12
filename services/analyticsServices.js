@@ -1,7 +1,7 @@
 import fetchTimeout from "fetch-timeout";
 import axios from "axios";
 
-const iothub = "http://192.168.0.103:30000";
+const iothub = "https://user-car-service.azurewebsites.net";
 const USER_CAR_SERVICE_HOST = "https://user-car-service.azurewebsites.net/";
 
 const simulateTripUrl = iothub + "/senddata/trip";
