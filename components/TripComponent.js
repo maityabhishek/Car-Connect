@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Trip = props => {
+    console.log(props)
     return (
         <TouchableOpacity {...props}>
             <View style={styles.tripPanel}>

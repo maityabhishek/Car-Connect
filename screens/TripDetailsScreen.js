@@ -3,59 +3,33 @@ import { Component } from "react";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import Card from "../components/Card";
-import { getTrips } from "../services/analyticsServices";
-import axios from "axios";
 
-axios.interceptors.request.use(
-  (config) => {
-    config.headers.authorization = `8d5355e4a23a8b0baea5b58f79ba3ce1bd285c5c62e8c39645bd4fce30a935a0`;
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-class TripDetailsScreen extends Component {
-  constructor(props) {
-    super(props);
+const TripDetailsScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-    this.state = {
-      data: [],
-      isLoading: true,
-    };
-  }
-  componentDidMount() {
-      console.log('componentDidMount..');
-    axios
-      .get("https://userservie123.azurewebsites.net/viewcar/OD02F7497")
-      .then((response) => {
-        console.log('Received the response from view car');
-        console.log(response.data);
-        this.setState({ data: response.data });
-      })
-      .catch(function (error) {});
-  }
-  render() {
-    const { data, isLoading } = this.state;
+  // if(props.navigation.state.params.screen === 'homeSreen') {
+  //     const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.lastTrip);
+  //     setIsLoading(false);
+  // }
+  // else {
+  //     const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.item);
+  //     setIsLoading(false);
+  // }
 
-    return (
-      <View style={styles.screen}>
-        <FlatList
-          data={data.triplist}
-          keyExtractor={(trip) => trip.tripid}
-          renderItem={({ item }) => (
-            <View>
-              <Card>
-                <View style={styles.healthItemRow}>
-                  <Text
-                    style={{ fontWeight: "bold", justifyContent: "flex-start" }}
-                  >
-                    Trip
-                  </Text>
-                  <Text style={{ justifyContent: "flex-end" }}>
-                    Fri, Jan 24, 4.41 PM - 6:48 PM
-                  </Text>
-                </View>
+  const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.lastTrip);
+  //const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip);
+  console.log(props.navigation.state.params.lastTrip);
+  console.log("props :", lastTrip);
+  console.log("props Screen:", props.navigation.state.params.screen);
+  return(
+  <View style={styles.screen}>
+    <View>
+      <View>
+        <View>
+            <Text style={{ justifyContent: "flex-end" }}>
+                    {lastTrip.tripdate}
+            </Text>
+        </View>
                 <View
                   style={{
                     flexDirection: "column",
@@ -63,11 +37,11 @@ class TripDetailsScreen extends Component {
                     alignItems: "center",
                   }}
                 >
-                  <Text style={styles.tripDetailText}>{item.distance}</Text>
-                  <Text style={styles.tripDetailText}>{item.triptime}Hrs</Text>
-                  <Text style={styles.tripDetailText}>{item.avgspeed}</Text>
+                  <Text style={styles.tripDetailText}>{lastTrip.distance}</Text>
+                  <Text style={styles.tripDetailText}>{lastTrip.triptime}Hrs</Text>
+                  <Text style={styles.tripDetailText}>{lastTrip.avgspeed}</Text>
                 </View>
-              </Card>
+              </View>
               <Card style={{ marginVertical: 10 }}>
                 <View
                   style={{
@@ -104,7 +78,7 @@ class TripDetailsScreen extends Component {
                     }}
                   >
                     <Text style={styles.tripDetailText}>Fuel Consumed</Text>
-                    <Text style={styles.tripDetailText}>{item.fuel}ltrs</Text>
+                    <Text style={styles.tripDetailText}>{lastTrip.fuel}ltrs</Text>
                   </View>
                   <View
                     style={{
@@ -124,7 +98,7 @@ class TripDetailsScreen extends Component {
                     }}
                   >
                     <Text style={styles.tripDetailText}>Avg Speed</Text>
-                    <Text style={styles.tripDetailText}>{item.avgspeed}</Text>
+                    <Text style={styles.tripDetailText}>{lastTrip.avgspeed}</Text>
                   </View>
                   <View
                     style={{
@@ -145,34 +119,34 @@ class TripDetailsScreen extends Component {
                 >
                   <Text style={{ fontWeight: "bold" }}>Split Summary</Text>
                 </View>
-                <View style={styles.healthItemRow}>
-                  <View style={{ flexDirection: "column" }}>
-                    <Text style={styles.tripDetailText}>0 - 10 kms</Text>
-                    <Text style={styles.tripDetailText}>11 - 20 kms</Text>
-                    <Text style={styles.tripDetailText}>21 - 30 kms</Text>
-                    <Text style={styles.tripDetailText}>31 - 40 kms</Text>
+                <FlatList
+                  data={lastTrip.splits}
+                  renderItem={({ item }) => 
+                  <View style={styles.healthItemRow}>
+                    <View style={{ flexDirection: "column" }}>
+                      <Text style={styles.tripDetailText}>From</Text>
+                      <Text style={styles.tripDetailText}>TO</Text>
+                      <Text style={styles.tripDetailText}>Average Speed</Text>
+                      <Text style={styles.tripDetailText}>Fuel Consumed</Text>
+                      <Text style={styles.tripDetailText}>Time taken</Text>
+                    </View>
+                    <View style={{ flexDirection: "column" }}>
+                      <Text style={styles.tripDetailText}>{item.fromKms} km</Text>
+                      <Text style={styles.tripDetailText}>{item.toKms} km</Text>
+                      <Text style={styles.tripDetailText}>{item.avgSpeed} kms</Text>
+                      <Text style={styles.tripDetailText}>{item.fuelconsued} ltrs</Text>
+                      <Text style={styles.tripDetailText}>{item.time} hrs</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: "column" }}>
-                    <Text style={styles.tripDetailText}>0 - 10 kms</Text>
-                    <Text style={styles.tripDetailText}>11 - 20 kms</Text>
-                    <Text style={styles.tripDetailText}>21 - 30 kms</Text>
-                    <Text style={styles.tripDetailText}>31 - 40 kms</Text>
-                  </View>
-                  <View style={{ flexDirection: "column" }}>
-                    <Text style={styles.tripDetailText}>0.9 ltrs</Text>
-                    <Text style={styles.tripDetailText}>1.1 ltrs</Text>
-                    <Text style={styles.tripDetailText}>0.8 ltrs</Text>
-                    <Text style={styles.tripDetailText}>1.1 ltrs</Text>
-                  </View>
-                </View>
+                  }
+                  keyExtractor={item => item.fromKms.toString()}
+                  style={styles.flatList}
+                />
               </Card>
             </View>
-          )}
-        />
-      </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -193,6 +167,10 @@ const styles = StyleSheet.create({
   healthText: {
     fontSize: 20,
   },
+  flatList: {
+  height: 100,
+  flexGrow: 0
+}
 });
 
-export default TripDetailsScreen;
+export default TripDetailsScreen; 
