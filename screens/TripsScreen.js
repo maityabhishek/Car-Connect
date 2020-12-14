@@ -14,7 +14,9 @@ const TripsScreen = props => {
                 keyExtractor={(trip) => trip.tripid.toString()}
                 renderItem={({ item }) => (
                     <Card style={{ marginVertical: 10, padding: 10 }}>
-                        <Trip style={{padding: 0, margin: 0}} onPress={() => props.navigation.navigate('TripDetail', {lastTrip : {item}, screen : 'tripScreen'})} trip={item} />
+                        <Trip style={{padding: 0, margin: 0}} 
+                                onPress={() => props.navigation.navigate('TripDetail', {lastTrip : item, screen : 'tripScreen'})} 
+                                trip={item} />
                     </Card>
                 )}
             />

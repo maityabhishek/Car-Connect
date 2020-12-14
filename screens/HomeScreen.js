@@ -138,7 +138,8 @@ const HomeScreen = props => {
 
                     </TouchableOpacity>
                 </View>
-                <Trip onPress={() => props.navigation.navigate('TripDetail', {lastTrip : {lastTrip}, screen : 'homeScreen'})} trip={lastTrip} />
+                <Trip onPress={() => props.navigation.navigate('TripDetail', {lastTrip : lastTrip, screen : 'homeScreen'})} 
+                    trip={lastTrip} />
             </Card>
             <View style={styles.notificationBtnView}>
                 <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import moment from "moment";
 
 const Trip = props => {
     console.log(props)
@@ -11,7 +12,7 @@ const Trip = props => {
                     <Text style={styles.tripEndpointsText}>{props.trip.startpoint} - {props.trip.endpoint}</Text>
                 </View>
                 <View style={styles.tripDateContainer}>
-                    <Text style={styles.tripDate}>3 Dec 2020 2:10 PM</Text>
+                    <Text style={styles.tripDate}>{moment(props.trip.tripdate).format('d MMM yyyy HH:mm')}</Text>
                 </View>                
                 <View>
                     <View style={styles.tripDetailRow}>

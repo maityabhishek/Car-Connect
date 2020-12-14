@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { Component } from "react";
 import { useEffect, useState } from "react";
@@ -7,143 +8,102 @@ import Card from "../components/Card";
 const TripDetailsScreen = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  // if(props.navigation.state.params.screen === 'homeSreen') {
-  //     const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.lastTrip);
-  //     setIsLoading(false);
-  // }
-  // else {
-  //     const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.item);
-  //     setIsLoading(false);
-  // }
-
-  const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip.lastTrip);
-  //const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip);
   console.log(props.navigation.state.params.lastTrip);
-  console.log("props :", lastTrip);
-  console.log("props Screen:", props.navigation.state.params.screen);
-  return(
-  <View style={styles.screen}>
-    <View>
+
+  const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip);
+
+  return (
+    <View style={styles.screen}>
       <View>
-        <View>
-            <Text style={{ justifyContent: "flex-end" }}>
-                    {lastTrip.tripdate}
-            </Text>
-        </View>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles.tripDetailText}>{lastTrip.distance}</Text>
-                  <Text style={styles.tripDetailText}>{lastTrip.triptime}Hrs</Text>
-                  <Text style={styles.tripDetailText}>{lastTrip.avgspeed}</Text>
-                </View>
-              </View>
-              <Card style={{ marginVertical: 10 }}>
-                <View
-                  style={{
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text style={{ fontWeight: "bold" }}>Trip Details</Text>
-                </View>
-                <View style={styles.healthItemRow}>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Running Time</Text>
-                    <Text style={styles.tripDetailText}>1:36:13</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Total Time</Text>
-                    <Text style={styles.tripDetailText}>2:07:20</Text>
-                  </View>
-                </View>
-                <View style={styles.healthItemRow}>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Fuel Consumed</Text>
-                    <Text style={styles.tripDetailText}>{lastTrip.fuel}ltrs</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Mileage</Text>
-                    <Text style={styles.tripDetailText}>14.8 Km/ltr</Text>
-                  </View>
-                </View>
-                <View style={styles.healthItemRow}>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Avg Speed</Text>
-                    <Text style={styles.tripDetailText}>{lastTrip.avgspeed}</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Text style={styles.tripDetailText}>Max Speed</Text>
-                    <Text style={styles.tripDetailText}>70 km/hr</Text>
-                  </View>
-                </View>
-              </Card>
-              <Card style={{ marginVertical: 10 }}>
-                <View
-                  style={{
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text style={{ fontWeight: "bold" }}>Split Summary</Text>
-                </View>
-                <FlatList
-                  data={lastTrip.splits}
-                  renderItem={({ item }) => 
-                  <View style={styles.healthItemRow}>
-                    <View style={{ flexDirection: "column" }}>
-                      <Text style={styles.tripDetailText}>From</Text>
-                      <Text style={styles.tripDetailText}>TO</Text>
-                      <Text style={styles.tripDetailText}>Average Speed</Text>
-                      <Text style={styles.tripDetailText}>Fuel Consumed</Text>
-                      <Text style={styles.tripDetailText}>Time taken</Text>
-                    </View>
-                    <View style={{ flexDirection: "column" }}>
-                      <Text style={styles.tripDetailText}>{item.fromKms} km</Text>
-                      <Text style={styles.tripDetailText}>{item.toKms} km</Text>
-                      <Text style={styles.tripDetailText}>{item.avgSpeed} kms</Text>
-                      <Text style={styles.tripDetailText}>{item.fuelconsued} ltrs</Text>
-                      <Text style={styles.tripDetailText}>{item.time} hrs</Text>
-                    </View>
-                  </View>
-                  }
-                  keyExtractor={item => item.fromKms.toString()}
-                  style={styles.flatList}
-                />
-              </Card>
+        <Card style={{ marginVertical: 10 }}>
+          <View>
+            <Text style={styles.tripEndpointsText}>{lastTrip.startpoint} - {lastTrip.endpoint}</Text>
+          </View>
+          <View style={styles.tripDateContainer}>
+            <Text style={styles.tripDate}>{moment(lastTrip.tripdate).format('d MMM yyyy HH:mm')}</Text>
+          </View>          
+          <View style={styles.tripTimeContainer}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Text style={styles.tripParamsLabel}>Trip Time</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.triptime} Hrs</Text>
             </View>
+
+          </View>
+          <View style={styles.healthItemRow}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Text style={styles.tripParamsLabel}>Fuel Consumed</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.fuel} ltrs</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                alignItems: "flex-end"
+              }}
+            >
+              <Text style={styles.tripParamsLabel}>Mileage</Text>
+              <Text style={styles.tripParamsText}>14.8 Km/ltr</Text>
+            </View>
+          </View>
+          <View style={styles.healthItemRow}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Text style={styles.tripParamsLabel}>Avg Speed</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.avgspeed} Kms</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text style={styles.tripParamsLabel}>Max Speed</Text>
+              <Text style={styles.tripParamsText}>70 Kms</Text>
+            </View>
+          </View>
+        </Card>
+        <Card style={{ marginVertical: 10 }}>
+          <View
+            style={{
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.splitSummeryTitle}>Split Summary</Text>
+          </View>
+          <FlatList
+            data={lastTrip.splits}
+            renderItem={({ item }) =>
+              <View style={styles.splitRow}>
+                <View>
+                 <Text style={styles.splitRowText}>{item.fromKms} - {item.toKms} Kms</Text>
+                </View>
+                <View>
+                 <Text style={styles.splitRowText}>{item.avgSpeed} Kms/hr</Text>
+                </View>
+                <View>
+                 <Text style={styles.splitRowText}>{item.time} Mins</Text>
+                </View>                
+              </View>
+            }
+            keyExtractor={item => item.fromKms.toString()}
+            style={styles.flatList}
+          />
+        </Card>
+      </View>
     </View>
   );
 };
@@ -151,8 +111,7 @@ const TripDetailsScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginHorizontal: 10
   },
   healthItemContainer: {
     flexDirection: "row",
@@ -164,13 +123,54 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     margin: 5,
   },
+  tripTimeContainer: {
+    flexDirection: "row",
+    alignContent: 'center',
+    justifyContent: "center"
+  },
   healthText: {
     fontSize: 20,
   },
   flatList: {
-  height: 100,
-  flexGrow: 0
-}
+    height: 200
+  },
+  tripEndpointsText: {
+    fontSize: 20,
+    color: 'green'
+  },
+  tripDateContainer: {
+      alignItems: "flex-end"
+  },
+  tripDate: {
+      fontSize: 18,
+      color: 'red',
+      fontWeight: "bold"
+  },
+  tripParamsText: {
+    fontSize: 20,
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
+  tripParamsLabel: {
+    color: "#9a9a9a",
+    fontWeight: "bold"
+  },
+  splitRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 5,
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: "lightblue"
+  },
+  splitRowText: { 
+    fontSize: 16
+  },
+  splitSummeryTitle: {
+    color: "#9a9a9a",
+    fontSize: 16,
+    fontWeight: "bold"
+  }
 });
 
 export default TripDetailsScreen; 
