@@ -56,8 +56,7 @@ const HomeScreen = props => {
         })
     }
 
-    useEffect(() => {
-        console.log('Home screen componentDidMount..')
+    const getCarDetailHandler = () => {
         getCarDetails('OD02F7497')
             .then((response) => {
                 console.log('Received the response from view car');
@@ -74,9 +73,12 @@ const HomeScreen = props => {
                 setIsLoading(false);
             })
             .catch(function (error) { });
+    }
+
+    useEffect(() => {
+        console.log('Home screen componentDidMount..')
+        getCarDetailHandler();
     }, []);
-
-
 
     if (isLoading) {
         return <View style={styles.loadingView}>
