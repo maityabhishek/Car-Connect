@@ -56,24 +56,6 @@ const HomeScreen = props => {
         })
     }
 
-    const getCarDetailHandler = () => {
-        getCarDetails('OD02F7497')
-            .then((response) => {
-                console.log('Received the response from view car');
-                response.data.car.enginestatus = 1;
-                setCarDetails(response.data);
-
-                if (response.data?.triplist) {
-                    setLastTrip(
-                        response.data.triplist[response.data.triplist.length - 1]
-                    );
-                }
-                console.log('carDetails');
-                console.log(carDetails);
-                setIsLoading(false);
-            })
-            .catch(function (error) { });
-    }
 
     useEffect(() => {
         console.log('Home screen componentDidMount..')
