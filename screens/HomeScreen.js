@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Trip from "../components/TripComponent";
 import * as Notifications from "expo-notifications";
+import Swiper from "react-native-swiper";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => {
@@ -56,31 +57,34 @@ const HomeScreen = props => {
         })
     }
 
+
     useEffect(() => {
         console.log('Home screen componentDidMount..')
-        getCarDetails('OD02F7497')
-            .then((response) => {
-                console.log('Received the response from view car');
-                response.data.car.enginestatus = 1;
-                setCarDetails(response.data);
+        const getCarDetailHandler = setInterval(() => {
+            getCarDetails('OD02F7497')
+                .then((response) => {
+                    console.log('Received the response from view car');
+                    response.data.car.enginestatus = 1;
+                    setCarDetails(response.data);
 
-                if (response.data?.triplist) {
-                    setLastTrip(
-                        response.data.triplist[response.data.triplist.length - 1]
-                    );
-                }
-                console.log('carDetails');
-                console.log(carDetails);
-                setIsLoading(false);
-            })
-            .catch(function (error) { });
+                    if (response.data?.triplist) {
+                        setLastTrip(
+                            response.data.triplist[response.data.triplist.length - 1]
+                        );
+                    }
+                    console.log('carDetails');
+                    console.log(carDetails);
+                    setIsLoading(false);
+                })
+                .catch(function (error) { });
+        }, 30000);
+
+        return () => { console.log("clearing timer"); clearInterval(getCarDetailHandler) };
     }, []);
-
-
 
     if (isLoading) {
         return <View style={styles.loadingView}>
-            <ActivityIndicator size='large' color='red'/>
+            <ActivityIndicator size='large' color='red' />
         </View>
     }
 
@@ -113,16 +117,24 @@ const HomeScreen = props => {
                     justifyContent: "space-between",
                     alignItems: "center"
                 }}>
-                    <Text style={{ fontWeight: "bold" }}>Notification</Text>
+                    <Text style={{ fontWeight: "bold", color: '#9a9a9a' }}>Notifications</Text>
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: "space-between",
                     alignItems: "center"
                 }}>
-                    <View>
-                        <Text>PUC expiring on mm/dd/yyyy</Text>
-                    </View>
+                    <Swiper autoplay horizontal={true} height={50}
+                        dotStyle={{ marginVertical: 1 }}
+                        paginationStyle={{ position: 'absolute', bottom: 2 }}
+                    >
+                        <View>
+                            <Text style={styles.swiperText}>Cooolant temprature exceeded</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.swiperText}>Low fuel level</Text>
+                        </View>
+                    </Swiper>
                 </View>
             </Card>
 
@@ -138,7 +150,7 @@ const HomeScreen = props => {
 
                     </TouchableOpacity>
                 </View>
-                <Trip onPress={() => props.navigation.navigate('TripDetail', {lastTrip : lastTrip, screen : 'homeScreen'})} 
+                <Trip onPress={() => props.navigation.navigate('TripDetail', { lastTrip: lastTrip, screen: 'homeScreen' })}
                     trip={lastTrip} />
             </Card>
             <View style={styles.notificationBtnView}>
@@ -208,6 +220,10 @@ const styles = StyleSheet.create({
     },
     notificationBtnView: {
         margin: 7
+    },
+    swiperText: {
+        fontSize: 16,
+        fontWeight: "bold"
     }
 });
 

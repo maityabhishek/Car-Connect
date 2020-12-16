@@ -9,15 +9,7 @@ const SimulationScreen = props => {
     const [message, setMessage] = useState('') 
     
     const startTripSimulation = () => {
-        setMessage('Simulation started!');
-        simulateTrip()
-            .then(response => {
-                setSimStarted(true);
-                console.log('Simulation Completed')
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        props.navigation.navigate('TripSimulation');        
     };
 
     const startDiagnisticSimulation = () => {
