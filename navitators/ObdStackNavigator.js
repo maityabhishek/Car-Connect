@@ -5,6 +5,7 @@ import TripDetailsScreen from "../screens/TripDetailsScreen";
 import SimulationScreen from "../screens/SimulationScreen";
 import TripsScreen from "../screens/TripsScreen";
 import TripSimulationScreen from "../screens/TripSimulationScreen";
+import { createDrawerNavigator } from "react-navigation-drawer";
 
 const ObdStackNavigator = createStackNavigator({
     Home: HomeScreen,
@@ -14,4 +15,14 @@ const ObdStackNavigator = createStackNavigator({
     TripSimulation: TripSimulationScreen
 });
 
-export default createAppContainer(ObdStackNavigator);
+const SimulationNavigator = createStackNavigator({
+    Simulate: SimulationScreen,
+    TripSimulation: TripSimulationScreen
+})
+
+const ObdDrawerNatigator = createDrawerNavigator({
+    Home: ObdStackNavigator,
+    Simulation: SimulationNavigator
+})
+
+export default createAppContainer(ObdDrawerNatigator);

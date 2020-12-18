@@ -9,6 +9,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Trip from "../components/TripComponent";
 import * as Notifications from "expo-notifications";
 import Swiper from "react-native-swiper";
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => {
@@ -152,13 +154,7 @@ const HomeScreen = props => {
                 </View>
                 <Trip onPress={() => props.navigation.navigate('TripDetail', { lastTrip: lastTrip, screen: 'homeScreen' })}
                     trip={lastTrip} />
-            </Card>
-            <View style={styles.notificationBtnView}>
-                <Button title="Simulation" onPress={() => props.navigation.navigate('Simulate')} />
-            </View>
-            <View style={styles.notificationBtnView}>
-                <Button title="Show notification" onPress={triggerNotification} />
-            </View>
+            </Card>            
         </View >
 
 
@@ -167,7 +163,18 @@ const HomeScreen = props => {
 
 HomeScreen.navigationOptions = navData => {
     return {
-        headerTitle: 'Home'
+        headerTitle: 'Car-Connect',
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+              <Item
+                title="Menu"
+                iconName="ios-menu"
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          )
     }
 };
 
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
         margin: 7
     },
     swiperText: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: "bold"
     }
 });

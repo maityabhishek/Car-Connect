@@ -3,6 +3,8 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { simulateTrip, simulateDiagnistic, simulateEmission } from "../services/analyticsServices";
 import { useState } from "react";
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
 
 const SimulationScreen = props => {
     const [simStarted, setSimStarted] = useState(false);
@@ -53,6 +55,23 @@ const SimulationScreen = props => {
         </View>
     );
 }
+
+SimulationScreen.navigationOptions = navData => {
+    return {
+        headerTitle: 'Simulations',
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+              <Item
+                title="Menu"
+                iconName="ios-menu"
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          )
+    }
+};
 
 const styles = StyleSheet.create({
     screen: {
