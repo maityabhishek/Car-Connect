@@ -12,6 +12,16 @@ const TripDetailsScreen = (props) => {
 
   const [lastTrip, setLastTrip] = useState(props.navigation.state.params.lastTrip);
 
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const getDateString = () => {
+        const tripDate = new Date(lastTrip.tripdate);
+        const strinDate = tripDate.getDate() + '-' + monthNames[tripDate.getMonth()] + '-' + tripDate.getFullYear();
+        return strinDate;
+    }
+
   return (
     <View style={styles.screen}>
       <View>
@@ -20,7 +30,7 @@ const TripDetailsScreen = (props) => {
             <Text style={styles.tripEndpointsText}>{lastTrip.startpoint} - {lastTrip.endpoint}</Text>
           </View>
           <View style={styles.tripDateContainer}>
-            <Text style={styles.tripDate}>{moment(lastTrip.tripdate).format('d MMM yyyy HH:mm')}</Text>
+            <Text style={styles.tripDate}>{getDateString()}</Text>
           </View>          
           <View style={styles.tripTimeContainer}>
             <View
