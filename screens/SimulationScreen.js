@@ -8,17 +8,19 @@ import HeaderButton from '../components/HeaderButton';
 
 const SimulationScreen = props => {
     const [simStarted, setSimStarted] = useState(false);
-    const [message, setMessage] = useState('') 
-    
+    const [message, setMessage] = useState('')
+
     const startTripSimulation = () => {
-        props.navigation.navigate('TripSimulation');        
+        props.navigation.navigate('TripSimulation');
     };
 
     const startDiagnisticSimulation = () => {
-        setMessage('Simulation started!');
+        setMessage('Engine Diagnostics started!!');
+        setSimStarted(true);
         simulateDiagnistic()
             .then(response => {
-                setSimStarted(true);
+                setSimStarted(false);
+                setMessage('Engine Diagnostics completed!!');
                 console.log('Simulation Completed')
             })
             .catch(err => {
@@ -27,30 +29,42 @@ const SimulationScreen = props => {
     };
 
     const startEmissionSimulation = () => {
-        setMessage('Simulation started!');
+        setMessage('Vehicle condition simualtion started!!');
+        setSimStarted(true);
         simulateEmission()
             .then(response => {
-                setSimStarted(true);
+                setSimStarted(false);
+                setMessage('Vehicle condition simualtion completed!!');
                 console.log('Simulation Completed')
             })
             .catch(err => {
+                setSimStarted(false);
                 console.log(err);
             })
     };
 
     return (
         <View style={styles.screen}>
-            <TouchableOpacity style={styles.simulateButton} onPress={() => startTripSimulation()}>
+            <TouchableOpacity
+                style={styles.simulateButton}
+                disabled={simStarted}
+                onPress={() => startTripSimulation()}>
                 <Text style={styles.text}>Simulate Trip</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.simulateButton} onPress={() => startDiagnisticSimulation()}>
+            <TouchableOpacity
+                style={styles.simulateButton}
+                disabled={simStarted}
+                onPress={() => startDiagnisticSimulation()}>
                 <Text style={styles.text}>Simulate Engine Diagnostics</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.simulateButton} onPress={() => startEmissionSimulation()}>
-                <Text style={styles.text}>Simulate Engine Diagnostics</Text>
+            <TouchableOpacity
+                style={styles.simulateButton}
+                disabled={simStarted}
+                onPress={() => startEmissionSimulation()}>
+                <Text style={styles.text}>Simulate Vehicle Condition</Text>
             </TouchableOpacity>
             <View>
-            <Text style={styles.message}>{message}</Text>
+                <Text style={styles.message}>{message}</Text>
             </View>
         </View>
     );
@@ -61,15 +75,15 @@ SimulationScreen.navigationOptions = navData => {
         headerTitle: 'Simulations',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
-              <Item
-                title="Menu"
-                iconName="ios-menu"
-                onPress={() => {
-                  navData.navigation.toggleDrawer();
-                }}
-              />
+                <Item
+                    title="Menu"
+                    iconName="ios-menu"
+                    onPress={() => {
+                        navData.navigation.toggleDrawer();
+                    }}
+                />
             </HeaderButtons>
-          )
+        )
     }
 };
 
@@ -93,7 +107,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     message: {
-        fontSize: 20        
+        fontSize: 20
     }
 });
 

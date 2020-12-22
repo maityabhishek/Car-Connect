@@ -90,7 +90,12 @@ const HomeScreen = props => {
     useEffect(() => {
         console.log('Loading car notifications')
         const getCarNotificationHandler = setInterval(() => {
-            getCarNotifications(1)
+            console.log('Car VIN - '+carDetails?.car?.vin);
+            // if (!carDetails?.car?.vin) {
+            //     console.log('Car details not loaded yet.')
+            //     return ;
+            // }            
+            getCarNotifications(100)
                 .then((response) => {
                     console.log('Response received for get Car notifications service - ' + response.data);
                     console.log(carNotifications.length);
@@ -143,19 +148,20 @@ const HomeScreen = props => {
                     </View>
                 </View>
             </Card>
-            <Card style={{ marginVertical: 10 }}>
+            <Card style={{ marginVertical: 10, height: '20%' }}>
                 <View style={{
                     justifyContent: "space-between",
                     alignItems: "center"
                 }}>
-                    <Text style={{ fontWeight: "bold", color: '#9a9a9a' }}>Notifications</Text>
+                    <Text style={{ fontWeight: "bold", color: 'darkred' }}>Notifications</Text>
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: "space-between",
-                    alignItems: "center"
+                    alignItems: "center",
+                    height: '95%'
                 }}>
-                    <Swiper autoplay horizontal={true} height={50}
+                    <Swiper autoplay horizontal={true} height={60}
                         dotStyle={{ marginVertical: 1 }}
 
                         paginationStyle={{ position: 'absolute', bottom: 2 }}
@@ -199,7 +205,7 @@ const HomeScreen = props => {
 
 HomeScreen.navigationOptions = navData => {
     return {
-        headerTitle: 'Car-Connect',
+        headerTitle: 'DriveSmart',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
@@ -265,13 +271,13 @@ const styles = StyleSheet.create({
         margin: 7
     },
     swiperText: {
-        fontSize: 18,
-        fontWeight: "bold"
+        fontSize: 18
     },
     noNotificationText: {
         color: '#9a9a9a',
         fontStyle: 'italic',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 16
     }
 });
 

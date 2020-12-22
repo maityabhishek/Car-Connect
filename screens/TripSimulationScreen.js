@@ -10,6 +10,7 @@ const TripSimulationScreen = props => {
     const [endPoint, setEndPoint] = useState('')
     const [simulationId, setSimulationId] = useState();
     const [simulationMsg, setSimulationMsg] = useState('');
+    const [isTripStopped, setTripStopped] = useState(false);
 
     const startSimulationHandler = () => {
         // setMessage('Simulation started!');
@@ -19,7 +20,7 @@ const TripSimulationScreen = props => {
                 console.log(response);
                 setIsSimulationStarted(true);
                 setSimulationId(response.data?.simulationId);
-                setSimulationMsg('Simulation Started!!!')
+                setSimulationMsg('Trip Simulation Started !!!')
             })
             .catch(err => {
                 console.log(err);
@@ -31,12 +32,15 @@ const TripSimulationScreen = props => {
             .then(response => {
                 console.log('Simulation Stopped!!!');
                 setIsSimulationStarted(false);
-                setSimulationMsg('');
+                setSimulationMsg('Trip Completed!');
+                isTripStopped(true);
             })
             .catch(err => {
                 console.log('Error occured while stoping the trip simulation!!');
                 console.log(err);
                 setIsSimulationStarted(false);
+                setSimulationMsg('Trip Completed!');
+                isTripStopped(true);
             });
     }
 
@@ -62,12 +66,6 @@ const TripSimulationScreen = props => {
                 </Text>
             </TouchableOpacity>
 
-            <View>
-                <Text style={styles.simulationMessage}>
-                    {simulationMsg}
-                </Text>
-            </View>
-
             <TouchableOpacity
                 style={{ ...styles.endButton, backgroundColor: isSimulationStarted ? 'red' : '#9a9a9a' }}
                 onPress={stopSimulationHandler}
@@ -76,6 +74,12 @@ const TripSimulationScreen = props => {
                     Stop
                 </Text>
             </TouchableOpacity>
+
+            <View style={styles.simulationMessageView}>
+                <Text style={styles.simulationMessage}>
+                    {simulationMsg}
+                </Text>
+            </View>
         </View>
     );
 };
@@ -137,6 +141,9 @@ const styles = StyleSheet.create({
     simulationMessage: {
         fontSize: 18,
         color: 'darkblue'
+    },
+    simulationMessageView: {
+        marginVertical: 10
     }
 });
 
