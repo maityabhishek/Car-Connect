@@ -3,6 +3,7 @@ import axios from "axios";
 
 const iothub = "https://user-car-service.azurewebsites.net";
 const USER_CAR_SERVICE_HOST = "https://user-car-service.azurewebsites.net/";
+const CAR_NOTIFICATION_SERVICE = "https://car-notification.azurewebsites.net/getnotificationbyvin/";
 
 const simulateTripUrl = iothub + "/senddata/trip";
 const stopTripSimulationUrl = iothub + '/simulation/stop/'
@@ -29,7 +30,7 @@ export function getTrips() {
 
 export function simulateTrip(startPoint, endPoint) {
     console.log("simulateTrip Called...");
-    const finalUrl = simulateTripUrl+'/' + startPoint + '/' + endPoint;
+    const finalUrl = simulateTripUrl+'/OD02F7497/' + startPoint + '/' + endPoint;
     console.log('Simulate trip url - '+finalUrl)
     return axios.get(finalUrl);
 }
@@ -60,4 +61,8 @@ export function authenticateUser(userName, password) { }
 
 export function getCarDetails(carId) {
     return axios.get(USER_CAR_SERVICE_HOST + "/viewcar/" + carId);        
+}
+
+export function getCarNotifications(vin) {
+    return axios.get(CAR_NOTIFICATION_SERVICE + vin);        
 }

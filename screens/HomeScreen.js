@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button, ActivityIndicator } from "react-native";
 import Card from '../components/Card';
-import { getTrips, getCarDetails } from "../services/analyticsServices";
+import { getTrips, getCarDetails, getCarNotifications } from "../services/analyticsServices";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,6 +11,7 @@ import * as Notifications from "expo-notifications";
 import Swiper from "react-native-swiper";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
+import { CAR_DETAILS, CAR_NOTIFICATION_DATA } from "../constants/data";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => {
@@ -22,9 +23,10 @@ Notifications.setNotificationHandler({
 
 const HomeScreen = props => {
     const [data, setData] = useState('');
-    const [carDetails, setCarDetails] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [carDetails, setCarDetails] = useState(CAR_DETAILS);
+    const [isLoading, setIsLoading] = useState(false);
     const [lastTrip, setLastTrip] = useState({});
+    const [carNotifications, setCarNotifications] = useState([]);
 
     const loadTripData = () => {
         getTrips()
@@ -43,22 +45,21 @@ const HomeScreen = props => {
         sound: 'email-sound.wav', // <- for Android 8.0+, see channelId property below
     });
 
-    const triggerNotification = () => {
+    const triggerNotification = (title, message, messageType) => {
         Notifications.scheduleNotificationAsync({
             content: {
-                title: 'Overspeeding!',
-                body: 'Overspeeding rule break!!!',
+                title: title,
+                body: message,
                 badge: 1,
                 sound: 'email-sound.wav', // <- for Android below 8.0,
                 priority: 'max'
             },
             trigger: {
-                seconds: 10,
+                seconds: 5,
                 channelId: 'new-emails', // <- for Android 8.0+, see definition above
             }
         })
     }
-
 
     useEffect(() => {
         console.log('Home screen componentDidMount..')
@@ -66,7 +67,6 @@ const HomeScreen = props => {
             getCarDetails('OD02F7497')
                 .then((response) => {
                     console.log('Received the response from view car');
-                    response.data.car.enginestatus = 1;
                     setCarDetails(response.data);
 
                     if (response.data?.triplist) {
@@ -78,10 +78,39 @@ const HomeScreen = props => {
                     console.log(carDetails);
                     setIsLoading(false);
                 })
-                .catch(function (error) { });
-        }, 30000);
+                .catch((error) => {
+                    console.log('Error occured while getting the car details - ' + error)
+                });
+
+        }, 60000);
 
         return () => { console.log("clearing timer"); clearInterval(getCarDetailHandler) };
+    }, []);
+
+    useEffect(() => {
+        console.log('Loading car notifications')
+        const getCarNotificationHandler = setInterval(() => {
+            getCarNotifications(1)
+                .then((response) => {
+                    console.log('Response received for get Car notifications service - ' + response.data);
+                    console.log(carNotifications.length);
+                    console.log(response.data?.length);
+
+                    if (carNotifications.length < response.data?.length) {
+                        const lastNotification = response.data[response.data?.length - 1];
+                        triggerNotification(lastNotification.eventname,
+                            lastNotification.eventdesc,
+                            lastNotification.eventtype)
+                    }
+
+                    setCarNotifications(response.data);
+                    console.log(carNotifications);
+                }).catch(err => {
+                    console.log('Error occured while getting the car notifications' + err);
+                })
+        }, 30000);
+
+        return () => { console.log("clearing timer"); clearInterval(getCarNotificationHandler) };
     }, []);
 
     if (isLoading) {
@@ -128,14 +157,21 @@ const HomeScreen = props => {
                 }}>
                     <Swiper autoplay horizontal={true} height={50}
                         dotStyle={{ marginVertical: 1 }}
+
                         paginationStyle={{ position: 'absolute', bottom: 2 }}
                     >
-                        <View>
-                            <Text style={styles.swiperText}>Cooolant temprature exceeded</Text>
-                        </View>
-                        <View>
-                            <Text style={styles.swiperText}>Low fuel level</Text>
-                        </View>
+                        {
+                            (carNotifications && carNotifications.length !== 0)
+                                ? carNotifications.map(not =>
+                                    <View key={not.eventval}>
+                                        <Text style={styles.swiperText}>{not.eventdesc}</Text>
+                                    </View>
+                                )
+                                : <View >
+                                    <Text style={styles.noNotificationText}>No notification present</Text>
+                                </View>
+                        }
+
                     </Swiper>
                 </View>
             </Card>
@@ -154,7 +190,7 @@ const HomeScreen = props => {
                 </View>
                 <Trip onPress={() => props.navigation.navigate('TripDetail', { lastTrip: lastTrip, screen: 'homeScreen' })}
                     trip={lastTrip} />
-            </Card>            
+            </Card>
         </View >
 
 
@@ -166,15 +202,15 @@ HomeScreen.navigationOptions = navData => {
         headerTitle: 'Car-Connect',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
-              <Item
-                title="Menu"
-                iconName="ios-menu"
-                onPress={() => {
-                  navData.navigation.toggleDrawer();
-                }}
-              />
+                <Item
+                    title="Menu"
+                    iconName="ios-menu"
+                    onPress={() => {
+                        navData.navigation.toggleDrawer();
+                    }}
+                />
             </HeaderButtons>
-          )
+        )
     }
 };
 
@@ -231,6 +267,11 @@ const styles = StyleSheet.create({
     swiperText: {
         fontSize: 18,
         fontWeight: "bold"
+    },
+    noNotificationText: {
+        color: '#9a9a9a',
+        fontStyle: 'italic',
+        fontWeight: 'bold'
     }
 });
 
