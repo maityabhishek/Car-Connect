@@ -3,8 +3,18 @@ import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import moment from "moment";
 
+
 const Trip = props => {
-    console.log(props)
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const getDateString = () => {
+        const tripDate = new Date(props.trip.tripdate);
+        const strinDate = tripDate.getDate() + '-' + monthNames[tripDate.getMonth()] + '-' + tripDate.getFullYear();
+        return strinDate;
+    }
+
     return (
         <TouchableOpacity {...props}>
             <View style={styles.tripPanel}>
@@ -12,8 +22,8 @@ const Trip = props => {
                     <Text style={styles.tripEndpointsText}>{props.trip.startpoint} - {props.trip.endpoint}</Text>
                 </View>
                 <View style={styles.tripDateContainer}>
-                    <Text style={styles.tripDate}>{moment(props.trip.tripdate).format('d MMM yyyy HH:mm')}</Text>
-                </View>                
+                    <Text style={styles.tripDate}>{getDateString()}</Text>
+                </View>
                 <View>
                     <View style={styles.tripDetailRow}>
                         <Text style={styles.tripDetailText}>Dist - {props.trip.distance}</Text>
