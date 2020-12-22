@@ -82,7 +82,7 @@ const TripDetailsScreen = (props) => {
               }}
             >
               <Text style={styles.tripParamsLabel}>Max Speed</Text>
-              <Text style={styles.tripParamsText}>70 Kms</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.maxspeed} Kms</Text>
             </View>
           </View>
         </Card>
