@@ -27,6 +27,7 @@ const HomeScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [lastTrip, setLastTrip] = useState({});
     const [carNotifications, setCarNotifications] = useState([]);
+    const [notificationResponse, setNotificationResponse] = useState([]);
 
     const loadTripData = () => {
         getTrips()
@@ -71,7 +72,7 @@ const HomeScreen = props => {
 
                     if (response.data?.triplist) {
                         setLastTrip(
-                            response.data.triplist[response.data.triplist.length - 1]
+                            response.data.triplist[0]
                         );
                     }
                     console.log('carDetails');
@@ -100,16 +101,21 @@ const HomeScreen = props => {
                     console.log('Response received for get Car notifications service - ' + response.data);
                     console.log(carNotifications.length);
                     console.log(response.data?.length);
+                    setNotificationResponse(response.data);
 
-                    if (carNotifications.length < response.data?.length) {
-                        const lastNotification = response.data[response.data?.length - 1];
-                        triggerNotification(lastNotification.eventname,
-                            lastNotification.eventdesc,
-                            lastNotification.eventtype)
-                    }
+                    // if (carNotifications.length < response.data?.length) {
+                    //     const lastNotification = response.data[response.data?.length - 1];
+                    //     triggerNotification(lastNotification.eventname,
+                    //         lastNotification.eventdesc,
+                    //         lastNotification.eventtype)
+                    // }
 
                     setCarNotifications(response.data);
                     console.log(carNotifications);
+
+                    carNotifications.map(not => {
+                        console.log('-> '+not);
+                    });
                 }).catch(err => {
                     console.log('Error occured while getting the car notifications' + err);
                 })
@@ -117,6 +123,16 @@ const HomeScreen = props => {
 
         return () => { console.log("clearing timer"); clearInterval(getCarNotificationHandler) };
     }, []);
+
+    useEffect(() => {
+        console.log('Checking for new Notifications...')
+        if (carNotifications.length < notificationResponse.length) {
+            const lastNotification = notificationResponse[notificationResponse.length - 1];
+            triggerNotification(lastNotification.eventname,
+                lastNotification.eventdesc,
+                lastNotification.eventtype)
+        }
+    }, [notificationResponse, carNotifications]);
 
     if (isLoading) {
         return <View style={styles.loadingView}>
