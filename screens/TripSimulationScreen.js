@@ -11,7 +11,11 @@ const TripSimulationScreen = props => {
     const [simulationId, setSimulationId] = useState();
     const [simulationMsg, setSimulationMsg] = useState('');
     const [isTripStopped, setTripStopped] = useState(false);
-
+    //setSimulationMsg('');
+    // if(simulationMsg.length > 0) {
+    //     setSimulationMsg('');
+    //     setIsSimulationStarted(false);
+    // }
     const startSimulationHandler = () => {
         // setMessage('Simulation started!');
         simulateTrip(startPoint, endPoint)
@@ -21,6 +25,11 @@ const TripSimulationScreen = props => {
                 setIsSimulationStarted(true);
                 setSimulationId(response.data?.simulationId);
                 setSimulationMsg('Trip Simulation Started !!!')
+
+                setTimeout(function () {
+                    //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+                    setSimulationMsg('');
+                }, 5000);
             })
             .catch(err => {
                 console.log(err);
@@ -32,16 +41,34 @@ const TripSimulationScreen = props => {
             .then(response => {
                 console.log('Simulation Stopped!!!');
                 setIsSimulationStarted(false);
-                setSimulationMsg('Trip Completed!');
-                isTripStopped(true);
+                // setSimulationMsg('Trip Completed!');
+                setTripStopped(true);
+
+                // setTimeout(function () {
+                //     //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+                //     setSimulationMsg('');
+                // }, 5000);
             })
             .catch(err => {
                 console.log('Error occured while stoping the trip simulation!!');
                 console.log(err);
                 setIsSimulationStarted(false);
-                setSimulationMsg('Trip Completed!');
-                isTripStopped(true);
+                // setSimulationMsg('Trip Completed!');
+                setTripStopped(true);
+
+                // setTimeout(function () {
+                //     //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+                //     setSimulationMsg('');
+                // }, 5000);
             });
+
+        setSimulationMsg('Trip Completed!');
+        setTripStopped(true);
+
+        setTimeout(function () {
+            //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+            setSimulationMsg('');
+        }, 5000);
     }
 
     return (

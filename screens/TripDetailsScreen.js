@@ -17,9 +17,14 @@ const TripDetailsScreen = (props) => {
     ];
 
     const getDateString = () => {
+      if(lastTrip.tripdate) {
         const tripDate = new Date(lastTrip.tripdate);
         const strinDate = tripDate.getDate() + '-' + monthNames[tripDate.getMonth()] + '-' + tripDate.getFullYear();
         return strinDate;
+      } else {
+        return '';
+      }
+        
     }
 
   return (

@@ -22,6 +22,10 @@ const SimulationScreen = props => {
                 setSimStarted(false);
                 setMessage('Engine Diagnostics completed!!');
                 console.log('Simulation Completed')
+                setTimeout(function(){ 
+                    //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+                    setMessage('');               
+                  }, 5000);
             })
             .catch(err => {
                 console.log(err);
@@ -36,6 +40,10 @@ const SimulationScreen = props => {
                 setSimStarted(false);
                 setMessage('Vehicle condition simualtion completed!!');
                 console.log('Simulation Completed')
+                setTimeout(function(){ 
+                    //Put All Your Code Here, Which You Want To Execute After Some Delay Time.
+                    setMessage('');               
+                  }, 5000);
             })
             .catch(err => {
                 setSimStarted(false);

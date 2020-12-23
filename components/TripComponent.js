@@ -10,11 +10,15 @@ const Trip = props => {
     ];
 
     const getDateString = () => {
-        const tripDate = new Date(props.trip.tripdate);
-        const strinDate = tripDate.getDate() + '-' + monthNames[tripDate.getMonth()] + '-' + tripDate.getFullYear();
-        return strinDate;
+        if(props.trip.tripdate){
+            const tripDate = new Date(props.trip.tripdate);
+            const strinDate = tripDate.getDate() + '-' + monthNames[tripDate.getMonth()] + '-' + tripDate.getFullYear();
+            return strinDate;
+        } else {
+            return '';
+        }    
     }
-
+    
     return (
         <TouchableOpacity {...props}>
             <View style={styles.tripPanel}>
@@ -26,8 +30,7 @@ const Trip = props => {
                 </View>
                 <View>
                     <View style={styles.tripDetailRow}>
-                        <Text style={styles.tripDetailText}>Dist - {props.trip.distance}</Text>
-                        <Text style={styles.unitText}>Kms</Text>
+                        <Text style={styles.tripDetailText}>Dist - {props.trip.distance} Kms</Text>
                         <Text style={styles.tripDetailText}>Avg Speed - {props.trip.avgspeed} Kms</Text>
                     </View>
                     <View style={styles.tripDetailRow}>
