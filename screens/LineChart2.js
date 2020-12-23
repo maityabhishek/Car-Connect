@@ -16,32 +16,28 @@ class LineChart2 extends Component {
               "May",
               "June",
               "July",
-              "August",
+              "August"
             ],
             datasets: [
               {
-                data: [28, 32, 24, 19, 34, 29, 22],
+                data: [28, 32, 24, 19, 34, 29, 22,26],
+                color: (opacity = 3) => `rgba(0,0,0, ${opacity})`,
+                strokeWidth: 6,
               },
             ],
           }}
-          width={Dimensions.get("window").width} // from react-native
-          height={220}
-          yAxisInterval={1} // optional, defaults to 1
+          width={Dimensions.get("window").width}
+          height={200}
+          yAxisInterval={1}
           chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#fb8c00",
-            backgroundGradientTo: "#ffa726",
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0,0,0, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: "6",
-              strokeWidth: "2",
-              stroke: "#ffa726",
-            },
+            backgroundColor: "#fff",
+            backgroundGradientFrom: "#fff",
+            backgroundGradientTo: "#fff",
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            strokeWidth: 4,
+            barPercentage: 0.5,
+            useShadowColorFromDataset: false,
           }}
         />
       </View>
