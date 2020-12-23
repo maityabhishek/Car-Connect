@@ -72,7 +72,7 @@ const HomeScreen = props => {
 
                     if (response.data?.triplist) {
                         setLastTrip(
-                            response.data.triplist[response.data.triplist.length - 1]
+                            response.data.triplist[0]
                         );
                     }
                     console.log('carDetails');

@@ -45,7 +45,7 @@ const TripDetailsScreen = (props) => {
               }}
             >
               <Text style={styles.tripParamsLabel}>Trip Time</Text>
-              <Text style={styles.tripParamsText}>{lastTrip.triptime} Hrs</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.triptime / 1000} Hrs</Text>
             </View>
 
           </View>
@@ -67,7 +67,7 @@ const TripDetailsScreen = (props) => {
               }}
             >
               <Text style={styles.tripParamsLabel}>Mileage</Text>
-              <Text style={styles.tripParamsText}>14.8 Km/ltr</Text>
+              <Text style={styles.tripParamsText}>{lastTrip.fuelefficiency} Km/ltr</Text>
             </View>
           </View>
           <View style={styles.healthItemRow}>
@@ -110,7 +110,7 @@ const TripDetailsScreen = (props) => {
                  <Text style={styles.splitRowText}>{item.avgSpeed} Kms/hr</Text>
                 </View>
                 <View>
-                 <Text style={styles.splitRowText}>{item.time} Mins</Text>
+                 <Text style={styles.splitRowText}>{item.time / 10} Mins</Text>
                 </View>                
               </View>
             }
