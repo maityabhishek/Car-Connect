@@ -11,7 +11,11 @@ const TripSimulationScreen = props => {
     const [simulationId, setSimulationId] = useState();
     const [simulationMsg, setSimulationMsg] = useState('');
     const [isTripStopped, setTripStopped] = useState(false);
-
+    //setSimulationMsg('');
+    if(simulationMsg.length > 0) {
+        setSimulationMsg('');
+        setIsSimulationStarted(false);
+    }
     const startSimulationHandler = () => {
         // setMessage('Simulation started!');
         simulateTrip(startPoint, endPoint)
